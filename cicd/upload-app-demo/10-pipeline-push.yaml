@@ -73,7 +73,7 @@ spec:
         - name: BUILD_EXTRA_ARGS
           # ghcr.io links the package to a repo from the OCI manifest annotation, not the LABEL:
           # drop node's inherited annotations (source = nodejs/docker-node) and set our own
-          value: "--inherit-annotations=false --annotation=org.opencontainers.image.source=https://github.com/<GITHUB_USER>/fri-uniza-onpk-cicd $(params.build-extra-args)"
+          value: "--inherit-annotations=false --annotation=org.opencontainers.image.source=https://github.com/nemcikjan/fri-uniza-onpk-cicd $(params.build-extra-args)"
       workspaces:
         - name: source
           workspace: shared-data
