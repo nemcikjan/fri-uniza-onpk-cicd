@@ -191,7 +191,7 @@ unset GHCR_TOKEN
 
 No `x-oauth-scopes` line, or `HTTP 401`: the token is wrong or expired.
 
-The same token pushes the image (buildah) and pulls it (the cluster); both secrets are created in 1.7. The first push creates a **private** package `fri-uniza-onpk-cicd` under your account. The `LABEL org.opencontainers.image.source` in `app/Dockerfile` links the package to your repo, so you'll see it on your repo page under **Packages**.
+The same token pushes the image (buildah) and pulls it (the cluster); both secrets are created in 1.7. The first push creates a **private** package `fri-uniza-onpk-cicd` under your account. The `LABEL org.opencontainers.image.source` in `app/Dockerfile` links the package to your repo, so you'll see it on your repo page under **Packages**. The pipelines build with `--inherit-annotations=false`: otherwise buildah copies the base image's annotations, ghcr.io reads node's `org.opencontainers.image.source` instead of the label, and the package isn't linked.
 
 Treat the token like a password: don't commit it, don't paste it into YAML files in the repo, and delete it after the course (see Cleanup).
 

@@ -75,7 +75,9 @@ spec:
         - name: DOCKERFILE
           value: "./app/Dockerfile"
         - name: BUILD_EXTRA_ARGS
-          value: "$(params.build-extra-args)"
+          # Don't copy node's OCI annotations (source = nodejs/docker-node): ghcr.io reads them
+          # before our LABEL and wouldn't link the package to this repo
+          value: "--inherit-annotations=false $(params.build-extra-args)"
       workspaces:
         - name: source
           workspace: shared-data
