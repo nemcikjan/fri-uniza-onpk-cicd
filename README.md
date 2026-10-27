@@ -13,7 +13,7 @@ You build, push and deploy a small Node.js upload app (with MongoDB) in two ways
 
 ```
 app/                         Node.js upload app + Dockerfile
-helm/uploadapp/              Helm chart for the app (MongoDB subchart vendored in charts/)
+helm/uploadapp/              Helm chart for the app and its MongoDB (official `mongo` image)
   values-uploadapp.yaml      values the pipelines and Flux deploy with
 cicd/hello-world/            first Tekton Task + TaskRun
 cicd/upload-app-demo/
@@ -34,4 +34,4 @@ The files contain the placeholder `<GITHUB_USER>` (your GitHub user, lowercase).
 
 ## Versions
 
-Tekton Pipelines v1.17.1, Tekton Dashboard v0.73.0, Tekton Triggers v0.37.2, catalog tasks git-clone 0.9 and buildah 0.9, Flux v2 (`source.toolkit.fluxcd.io/v1`, `helm.toolkit.fluxcd.io/v2`), MongoDB chart 16.0.3.
+Tekton Pipelines v1.17.1, Tekton Dashboard v0.73.0, Tekton Triggers v0.37.2, catalog tasks git-clone 0.9 and buildah 0.9, Flux v2 (`source.toolkit.fluxcd.io/v1`, `helm.toolkit.fluxcd.io/v2`), MongoDB `mongo:8.0` (official image).

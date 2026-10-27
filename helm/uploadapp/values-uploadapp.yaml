@@ -25,35 +25,7 @@ appbackendDb:
   password: mongotest
 
 mongodb:
-  # Bitnami moved its images: the chart default bitnami/mongodb:8.0.1-debian-12-r0 is gone.
-  image:
-    registry: docker.io
-    repository: bitnamilegacy/mongodb
-    tag: 8.0.1-debian-12-r0
-    pullPolicy: IfNotPresent
-  # TCP probes instead of the default mongosh probes.
-  livenessProbe:
-    enabled: false
-  readinessProbe:
-    enabled: false
-  customLivenessProbe:
-    tcpSocket:
-      port: mongodb
-    initialDelaySeconds: 30
-    periodSeconds: 20
-    timeoutSeconds: 5
-    failureThreshold: 6
-  customReadinessProbe:
-    tcpSocket:
-      port: mongodb
-    initialDelaySeconds: 5
-    periodSeconds: 10
-    timeoutSeconds: 5
-    failureThreshold: 6
-  service:
-    type: ClusterIP
-  persistence:
-    enabled: false
+  # Official mongo image, see templates/mongodb.yaml
   auth:
     rootUser: mongoroot
     rootPassword: mongotest

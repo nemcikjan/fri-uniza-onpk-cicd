@@ -98,12 +98,6 @@ If you pick another repo name, also replace `fri-uniza-onpk-cicd` in the `app/`,
 - The image package on ghcr.io is private by default either way, and the cluster pulls it with the `ghcr-pull` secret (1.7).
 - Everything else the lab downloads (Tekton, catalog tasks, Flux, the MongoDB image) is public.
 
-The vendored MongoDB chart must be in the repo. The pipelines and Flux use it instead of downloading it:
-
-```bash
-git ls-files helm/uploadapp/charts      # helm/uploadapp/charts/mongodb-16.0.3.tgz
-```
-
 ### 2. Set your GitHub user
 
 The files under `app/`, `cicd/` and `helm/` contain the placeholder `<GITHUB_USER>` (repo URLs, image name `ghcr.io/<GITHUB_USER>/fri-uniza-onpk-cicd`, the image's source label). Replace it everywhere at once (works with GNU and macOS sed):
@@ -162,27 +156,18 @@ tkn task list          # hello, git-clone, buildah
 
 ### 1. Look at `helm/uploadapp/values-uploadapp.yaml`
 
-These are the values the pipelines and Flux deploy with. Besides your image name (set in 1.4 step 2), three settings differ from the chart defaults:
+These are the values the pipelines and Flux deploy with. Besides your image name (set in 1.4 step 2), two settings differ from the chart defaults:
 - `imagePullSecrets: [{name: ghcr-pull}]`: new GHCR packages are private, so the cluster needs credentials to pull your image (secret created in 1.7).
-- `mongodb.image`: Bitnami moved its images, so the MongoDB chart's default image no longer exists. The file uses the `bitnamilegacy` copy.
-- `mongodb.customLivenessProbe` / `customReadinessProbe`: the chart's default MongoDB probes run `mongosh` and can time out. Simple TCP probes are more reliable.
+- `mongodb.auth`: the MongoDB root user. The app connects with `appbackendDb.user` / `password`, so keep the two in sync.
 
 ```yaml
 mongodb:
-  image:
-    registry: docker.io
-    repository: bitnamilegacy/mongodb
-    tag: 8.0.1-debian-12-r0
-    pullPolicy: IfNotPresent
-  livenessProbe:
-    enabled: false
-  readinessProbe:
-    enabled: false
-  customLivenessProbe:
-    tcpSocket:
-      port: mongodb
-    # ...
+  auth:
+    rootUser: mongoroot
+    rootPassword: mongotest
 ```
+
+MongoDB itself comes from `helm/uploadapp/templates/mongodb.yaml`: a single-pod StatefulSet `uploadapp-mongodb` running the official `mongo:8.0` image, with TCP probes and no persistent volume (data is lost when the pod restarts). The image and init scripts are set under `mongodb:` in `values.yaml`.
 
 Why MongoDB matters: `app/src/middleware/upload.js` connects to MongoDB when the app starts. If MongoDB isn't reachable, the Node process dies, the pod crash-loops and `helm --wait` times out.
 
@@ -289,7 +274,7 @@ The pipeline `cicd/upload-app-demo/10-pipeline-push.yaml`:
 1. `fetch-source` (catalog `git-clone`): clones your repo into the `shared-data` workspace, using the deploy key from `git-credentials`.
 2. `add-build-info`: writes `app/src/.env` with `BUILD_VERSION` (the image tag) and `BUILD_TIME`. The app shows them at `/info`.
 3. `buildah-build` (catalog `buildah`): builds `app/Dockerfile` and pushes `<image-name>:<image-tag>` to ghcr.io with `docker-credentials`.
-4. `deploy-app`: `helm lint`, then `helm upgrade --install uploadapp … --set image.repository=… --set image.tag=… --wait`. `helm dependency list` only checks the vendored `charts/mongodb-16.0.3.tgz`; nothing is downloaded.
+4. `deploy-app`: `helm lint`, then `helm upgrade --install uploadapp … --set image.repository=… --set image.tag=… --wait`.
 
 Read the file, then look at the PipelineRun `cicd/upload-app-demo/11-pipeline-push-run.yaml` (shown here with placeholders; yours has your names since 1.4 step 2):
 
@@ -447,8 +432,7 @@ kubectl describe helmrelease uploadapp
 | App pod `ImagePullBackOff` / `ErrImagePull` … `unauthorized` or `denied` | `ghcr-pull` secret missing or wrong (1.7 step 1), or make the package public |
 | PVC `Pending` | Normal until the first pod is scheduled. If it stays Pending, check `kubectl get storageclass` has a default |
 | helm `context deadline exceeded` | Usually MongoDB not Ready: check the mongodb pod and events |
-| MongoDB `ImagePullBackOff` | Check the `mongodb.image` block in `values-uploadapp.yaml` (1.6 step 1) |
-| MongoDB `Liveness probe failed … timed out` | Default mongosh probes: use the TCP probes from `values-uploadapp.yaml` |
+| MongoDB `ImagePullBackOff` | Check `mongodb.image` in `values.yaml` (`docker.io/library/mongo:8.0`) |
 | App pod `CrashLoopBackOff`, logs show `MongoServerSelectionError` / unhandled rejection | MongoDB not reachable yet. Restarts usually settle once MongoDB is up |
 | `curl` → 404 from nginx | Missing `Host:` header / hosts entry, or no Ingress (`kubectl get ingress`) |
 | `curl` → 503 | Backend pod not Ready |

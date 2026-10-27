@@ -82,3 +82,16 @@ appbackendDb:
   user: ""
   password: ""
   dbname: ""
+# MongoDB from the official image (templates/mongodb.yaml), reachable as <release>-mongodb:27017
+mongodb:
+  image:
+    repository: docker.io/library/mongo
+    tag: "8.0"
+    pullPolicy: IfNotPresent
+  # Empty rootUser = MongoDB runs without authentication
+  auth:
+    rootUser: ""
+    rootPassword: ""
+  # Scripts (*.js, *.sh) run once on first start, from /docker-entrypoint-initdb.d
+  initdbScripts: {}
+  resources: {}

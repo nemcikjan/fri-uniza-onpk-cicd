@@ -85,7 +85,6 @@ spec:
             image: alpine/helm:3.16
             script: |
               cd $(workspaces.source.path)/helm/uploadapp/
-              helm dependency list
               helm lint . --values ./values-uploadapp.yaml
           - name: helm-deploy
             image: alpine/helm:3.16
