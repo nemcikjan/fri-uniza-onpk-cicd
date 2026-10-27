@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   # Set per environment in values-uploadapp.yaml
-  repository: ghcr.io/<GITHUB_USER>/fri-uniza-onpk-cicd
+  repository: ghcr.io/nemcikjan/fri-uniza-onpk-cicd
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

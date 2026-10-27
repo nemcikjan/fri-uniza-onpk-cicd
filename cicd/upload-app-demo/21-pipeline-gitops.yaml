@@ -9,13 +9,13 @@ spec:
   params:
     - name: repo-url
       type: string
-      description: "SSH url of YOUR repo, e.g. git@github.com:<GITHUB_USER>/fri-uniza-onpk-cicd.git"
+      description: "SSH url of YOUR repo, e.g. git@github.com:nemcikjan/fri-uniza-onpk-cicd.git"
     - name: repo-branch
       type: string
       default: "main"
     - name: image-name
       type: string
-      description: "Target image name, e.g. ghcr.io/<GITHUB_USER>/fri-uniza-onpk-cicd"
+      description: "Target image name, e.g. ghcr.io/nemcikjan/fri-uniza-onpk-cicd"
     - name: image-tag
       type: string
     - name: git-user-name

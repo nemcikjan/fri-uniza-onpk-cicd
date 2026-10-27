@@ -11,11 +11,11 @@ spec:
       fsGroup: 65532
   params:
     - name: repo-url
-      value: git@github.com:<GITHUB_USER>/fri-uniza-onpk-cicd.git    # your fork (SSH url)
+      value: git@github.com:nemcikjan/fri-uniza-onpk-cicd.git    # your fork (SSH url)
     - name: repo-revision
       value: "main"
     - name: image-name
-      value: "ghcr.io/<GITHUB_USER>/fri-uniza-onpk-cicd"                 # lowercase
+      value: "ghcr.io/nemcikjan/fri-uniza-onpk-cicd"                 # lowercase
     - name: image-tag
       value: "1.0.0"
     - name: build-extra-args

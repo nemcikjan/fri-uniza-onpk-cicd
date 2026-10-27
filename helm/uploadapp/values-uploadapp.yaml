@@ -1,5 +1,5 @@
 image:
-  repository: ghcr.io/<GITHUB_USER>/fri-uniza-onpk-cicd   # lowercase
+  repository: ghcr.io/nemcikjan/fri-uniza-onpk-cicd   # lowercase
   tag: 1.0.0
 
 # GHCR packages are private by default: the cluster pulls with this secret (RUNBOOK 1.7)

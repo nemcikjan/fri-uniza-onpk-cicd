@@ -15,7 +15,7 @@ spec:
       description: "Git revision to fetch (branch, tag, commit, ...)"
     - name: image-name
       type: string
-      description: "Target image name, e.g. ghcr.io/<GITHUB_USER>/fri-uniza-onpk-cicd"
+      description: "Target image name, e.g. ghcr.io/nemcikjan/fri-uniza-onpk-cicd"
     - name: image-tag
       type: string
       description: "Target image tag"

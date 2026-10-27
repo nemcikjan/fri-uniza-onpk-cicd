@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   interval: 1m
-  url: ssh://git@github.com/<GITHUB_USER>/fri-uniza-onpk-cicd.git   # ssh:// form, "/" not ":"
+  url: ssh://git@github.com/nemcikjan/fri-uniza-onpk-cicd.git   # ssh:// form, "/" not ":"
   ref:
     branch: main
   secretRef:

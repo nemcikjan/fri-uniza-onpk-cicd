@@ -8,7 +8,7 @@ set -euo pipefail
 secret="1234567"                     # must match github-secret.yml
 event="pull_request"
 commit_sha=$(git rev-parse HEAD)
-payload='{"action": "opened", "pull_request":{"head":{"sha": "'"${commit_sha}"'"}},"repository":{"clone_url": "https://github.com/<GITHUB_USER>/fri-uniza-onpk-cicd.git"}}'
+payload='{"action": "opened", "pull_request":{"head":{"sha": "'"${commit_sha}"'"}},"repository":{"clone_url": "https://github.com/nemcikjan/fri-uniza-onpk-cicd.git"}}'
 hmac=$(printf '%s' "${payload}" | openssl sha1 -hmac "${secret}" | sed -e 's/^.* //')
 
 curl -sS \

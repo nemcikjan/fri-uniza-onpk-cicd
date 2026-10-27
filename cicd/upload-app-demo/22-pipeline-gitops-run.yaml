@@ -11,15 +11,15 @@ spec:
       fsGroup: 65532
   params:
     - name: repo-url
-      value: git@github.com:<GITHUB_USER>/fri-uniza-onpk-cicd.git    # your fork (SSH url)
+      value: git@github.com:nemcikjan/fri-uniza-onpk-cicd.git    # your fork (SSH url)
     - name: repo-branch
       value: "main"
     - name: image-name
-      value: "ghcr.io/<GITHUB_USER>/fri-uniza-onpk-cicd"
+      value: "ghcr.io/nemcikjan/fri-uniza-onpk-cicd"
     - name: image-tag
       value: "1.0.2"                                                 # bump on every run
     - name: git-user-email
-      value: "<GITHUB_USER>@users.noreply.github.com"
+      value: "nemcikjan@users.noreply.github.com"
   workspaces:
     - name: shared-data
       volumeClaimTemplate:

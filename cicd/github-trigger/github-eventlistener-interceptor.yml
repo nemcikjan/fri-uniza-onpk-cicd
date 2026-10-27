@@ -58,11 +58,11 @@ spec:
             fsGroup: 65532
         params:
           - name: repo-url
-            value: git@github.com:<GITHUB_USER>/fri-uniza-onpk-cicd.git
+            value: git@github.com:nemcikjan/fri-uniza-onpk-cicd.git
           - name: repo-revision
             value: $(tt.params.gitrevision)
           - name: image-name
-            value: ghcr.io/<GITHUB_USER>/fri-uniza-onpk-cicd
+            value: ghcr.io/nemcikjan/fri-uniza-onpk-cicd
           - name: image-tag
             value: $(tt.params.gitrevision)
         workspaces:

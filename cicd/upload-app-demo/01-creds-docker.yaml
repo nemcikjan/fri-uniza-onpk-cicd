@@ -3,7 +3,7 @@
 # This file is intentionally empty (no Kubernetes objects). Create the secrets
 # from your GitHub classic PAT (scope write:packages) instead. See RUNBOOK.md, section 1.7, step 1:
 #
-#   GITHUB_USER=<GITHUB_USER>
+#   GITHUB_USER=nemcikjan
 #   read -rs GHCR_TOKEN               # paste your classic PAT, press Enter
 #   AUTH=$(printf '%s:%s' "$GITHUB_USER" "$GHCR_TOKEN" | base64 | tr -d '\n')
 #   printf '{"auths":{"ghcr.io":{"auth":"%s"}}}\n' "$AUTH" > ~/lab-secrets/config.json
